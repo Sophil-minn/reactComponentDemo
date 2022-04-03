@@ -10,9 +10,6 @@ import './index.css';
 // 指定一个初始style(defaultStyle)，然后赋值一个目标style(style)，中间每帧都会由react-motion计算出对应的style，
 // 用户只管使用生成的style(interpolatingStyle)，不用关心物理效果的实现，动画中断的处理，一切事情都交给react-motion
 
-
-
-
 class Test1 extends Component {
   state = {
     left: 0
@@ -46,7 +43,7 @@ class Test1 extends Component {
             )
           }}
         </Motion>
-        <button onClick={this.clickHandler.bind(this)}>run</button>
+        <button onClick={this.clickHandler.bind(this)}>run Motion</button>
     </div>
   )
 }
@@ -103,7 +100,7 @@ class Test2 extends Component {
             </StaggeredMotion>
           ) : null}
         </div>
-        <button onClick={this.addLength.bind(this)}>run</button>
+        <button onClick={this.addLength.bind(this)}>run StaggeredMotion</button>
       </div>
     )
   }
@@ -137,7 +134,7 @@ class Test3 extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.clickHandler.bind(this)}>run</button>
+        <button onClick={this.clickHandler.bind(this)}>run TransitionMotion</button>
         <TransitionMotion styles={this.state.show ? [{
           key: 'test',
           style: { scale: spring(1) }
