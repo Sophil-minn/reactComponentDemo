@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Motion, spring, presets, StaggeredMotion } from 'react-motion'
+import {Motion, spring, presets, StaggeredMotion, TransitionMotion } from 'react-motion'
 import './index.css';
 
 // 相比较react-transition-group，用react-motion进行动画的编写显得要直观很多，写法类似这样
@@ -109,12 +109,64 @@ class Test2 extends Component {
   }
 }
 
+class Test3 extends Component {
+  state = {
+    show: true
+  }
+
+  componentDidMount() {
+    this.setState({
+      show: false
+    })
+  }
+
+  clickHandler() {
+    this.setState({
+      show: !this.state.show
+    })
+  }
+
+  willEnter(styleThatEnter) {
+    return { scale: 0 }
+  }
+
+  willLeave(styleThatLeft) {
+    return { scale: spring(0) }
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.clickHandler.bind(this)}>run</button>
+        <TransitionMotion styles={this.state.show ? [{
+          key: 'test',
+          style: { scale: spring(1) }
+        }] : []}
+          willEnter={this.willEnter}
+          willLeave={this.willLeave}>
+          {inStyles => (
+              inStyles[0] ? (
+                <div className="box box2 box3"
+                  key={inStyles[0].key}
+                  style={{
+                    transform: `scale(${inStyles[0].style.scale},${inStyles[0].style.scale})`
+                  }}></div>
+              ) : null
+          )}
+        </TransitionMotion>
+
+      </div>
+    )
+  }
+
+}
 
 const Index = () => {
   return (
     <div>
       <Test1 />
       <Test2 />
+      <Test3 />
       
     </div>
   );
