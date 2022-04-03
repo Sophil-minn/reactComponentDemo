@@ -3,3 +3,7 @@
   height: 200px;
   background: #000;
 }
+.box.box2 {
+  float: left;
+  margin: 5px;
+}
