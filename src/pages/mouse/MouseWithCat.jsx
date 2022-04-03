@@ -38,9 +38,12 @@ function withMouse(Component) {
   return class extends React.Component {
     render() {
       return (
-        <Mouse render={mouse => (
-          <Component {...this.props} mouse={mouse} />
-        )}/>
+        <Mouse render={mouse => {
+          console.log(mouse, 'mouse', this.props);
+          return (
+            <Component {...this.props} mouse={mouse} />
+          );
+        }}/>
       );
     }
   }
@@ -52,15 +55,15 @@ class MouseWithCat extends Component {
     return (
       <div>
         <h1>移动鼠标!</h1>
-        <WithMouse />
+        {/* <WithMouse /> */}
         
-        {/* <Mouse render={
+        <Mouse render={
           // mouse => ( <Cat mouse={mouse} />)
           mouse => {
             console.log(mouse, 'mouse');
             return ( <Cat mouse={mouse} />);
           }
-        }/> */}
+        }/>
       </div>
     );
   }
