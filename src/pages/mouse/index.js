@@ -1,7 +1,8 @@
 import React from 'react';
+import MouseWithCat from './MouseWithCat';
 
-
-class MouseTracker extends React.Component {
+// <Mouse> 组件封装了我们需要的行为...
+class Mouse extends React.Component {
   constructor(props) {
     super(props);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -18,9 +19,22 @@ class MouseTracker extends React.Component {
   render() {
     return (
       <div style={{ height: '100vh' }} onMouseMove={this.handleMouseMove}>
-        <h1>移动鼠标!</h1>
-        <p>当前的鼠标位置是 ({this.state.x}, {this.state.y})</p>
+
+        {/* ...但我们如何渲染 <p> 以外的东西? */}
+        <p>The current mouse position is ({this.state.x}, {this.state.y})</p>
       </div>
+    );
+  }
+}
+
+class MouseTracker extends React.Component {
+  render() {
+    return (
+      <>
+        <h1>移动鼠标!</h1>
+        <Mouse />
+        <MouseWithCat />
+      </>
     );
   }
 }
