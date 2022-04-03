@@ -1,8 +1,9 @@
 {
-  "name": "jianshu",
+  "name": "reactComponents",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@alifd/next": "^1.25.29",
     "@babel/core": "7.6.0",
     "@svgr/webpack": "4.3.2",
     "@typescript-eslint/eslint-plugin": "^2.2.0",

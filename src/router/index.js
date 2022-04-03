@@ -1,17 +1,18 @@
 import React from "react";
 import { Route } from 'react-router-dom';
 import loadable from '../utils/loadable';
-const Dialog = loadable(() => import('../components/Dialog'));
+const DialogDemo = loadable(() => import('../components/DialogDemo'));
 // const Home = loadable(() => import('../pages/home'));
 // const Login = loadable(() => import('../pages/login'));
 // const Hoc = loadable(() => import('../pages/hoc'));
 // const Write = loadable(() => import('../pages/write'));
 // const Detail = loadable(() => import('../pages/detail'));
+const MouseTracker = loadable(() => import('../pages/mouse'));
 // const A = loadable(() => import('../pages/hocComponent/A'));
 const routes = [
   {
     path: '/',
-    component: Dialog,
+    component: DialogDemo,
     exact: true
     // }, {
     //   path: '/login',
@@ -25,9 +26,9 @@ const routes = [
     // }, {
     //   path: '/detail/:id',
     //   component: Detail
-    // }, {
-    //   path: '/a/:id',
-    //   component: A
+    }, {
+      path: '/mouse',
+      component: MouseTracker
   },
 ];
 const Routers = () => {
