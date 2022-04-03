@@ -32,18 +32,35 @@ class Mouse extends React.Component {
   }
 }
 
+// 如果你出于某种原因真的想要 HOC，那么你可以轻松实现
+// 使用具有 render prop 的普通组件创建一个！
+function withMouse(Component) {
+  return class extends React.Component {
+    render() {
+      return (
+        <Mouse render={mouse => (
+          <Component {...this.props} mouse={mouse} />
+        )}/>
+      );
+    }
+  }
+}
+
 class MouseWithCat extends Component {
   render() {
+    const WithMouse = withMouse(Cat);
     return (
       <div>
         <h1>移动鼠标!</h1>
-        <Mouse render={
+        <WithMouse />
+        
+        {/* <Mouse render={
           // mouse => ( <Cat mouse={mouse} />)
           mouse => {
             console.log(mouse, 'mouse');
             return ( <Cat mouse={mouse} />);
           }
-        }/>
+        }/> */}
       </div>
     );
   }
