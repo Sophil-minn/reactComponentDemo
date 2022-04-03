@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dialog } from '@alifd/next';
+import { Button } from '@alifd/next';
 
 function MyDialog() {
   return (
