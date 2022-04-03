@@ -8,6 +8,7 @@ const DialogDemo = loadable(() => import('../components/DialogDemo'));
 // const Write = loadable(() => import('../pages/write'));
 // const Detail = loadable(() => import('../pages/detail'));
 const MouseTracker = loadable(() => import('../pages/mouse'));
+const Motion = loadable(() => import('../pages/motion'));
 // const A = loadable(() => import('../pages/hocComponent/A'));
 const routes = [
   {
@@ -27,9 +28,12 @@ const routes = [
     //   path: '/detail/:id',
     //   component: Detail
     }, {
+      path: '/motion',
+      component: Motion
+    }, {
       path: '/mouse',
       component: MouseTracker
-  },
+    },
 ];
 const Routers = () => {
   return (
