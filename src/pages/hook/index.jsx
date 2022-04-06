@@ -56,12 +56,24 @@ const Child6 = memo(() => {
 });
 
 // <Child clickTimeCount={timeOption}/> 重点修改这里
+const Child7 = memo((props) => {
+  console.log('i am 第7个  child');
+  return (
+    <>
+    <input type="text" onChange={props.onChange} />
+    </>
+  )
+});
 
 
 const Index = () => {
   const [num, setNum] = useState(0);
-
   const [clickTimeCount, setIimeClickCount] = useState(0);
+  const [text, setText] = useState('');
+ 
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
   const timeOption = {
     clickTimeCount
   }
@@ -96,6 +108,10 @@ const Index = () => {
       child5 副本 2 useMemo的作用，可以正确看出值的更新。缓存一些变量。在不需要变化的时候，去读取缓存。
       <Child5 clickTimeCount={timeOption2} />
       <Child6 clickTimeCount={timeOption3} />
+
+      <div>text: {text}</div>
+      <Child7  onChange={handleChange}/>
+
     </div>
   );
 }
