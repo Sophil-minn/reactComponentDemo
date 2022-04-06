@@ -16,6 +16,7 @@ class App extends Component {
           <GlobalIconFont />
           <BrowserRouter>
             <Routers />
+            
           </BrowserRouter>
         </div >
       </Provider >

@@ -9,12 +9,17 @@ const DialogDemo = loadable(() => import('../components/DialogDemo'));
 // const Detail = loadable(() => import('../pages/detail'));
 const MouseTracker = loadable(() => import('../pages/mouse'));
 const Motion = loadable(() => import('../pages/motion'));
+const Hook = loadable(() => import('../pages/hook'));
 // const A = loadable(() => import('../pages/hocComponent/A'));
 const routes = [
   {
     path: '/',
     component: DialogDemo,
     exact: true
+    }, {
+      path: '/hook',
+      component: Hook
+    // }, {
     // }, {
     //   path: '/login',
     //   component: Login
