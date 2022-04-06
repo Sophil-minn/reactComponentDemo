@@ -1,87 +1,46 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, memo, useEffect, useRef } from 'react';
 
-function Form() {
-  // 1. 使用变量名为 name 的 state
-  const [name, setName] = useState('Mary');
- 
-  // 2. 使用 effect 以保存 form 操作
-  useEffect(function persistForm() {
-    localStorage.setItem('formData', name);
-  });
- 
- 
-  // 3. 使用变量名为 surname 的 state
-  const [surname, setSurname] = useState('Poppins');
- 
- 
-  // 4. 使用 effect 以更新标题
-  useEffect(function updateTitle() {
-    document.title = name + ' ' + surname;
-  });
- 
- return (<div>{name} {surname}</div>)
-  // ...
-}
-let tag = true;
-
-function App() {
-  const [num, setNum] = useState(0);
-
-  // 只有初次渲染，才执行
-  const [unusedNum] = useState(1);
-
-  const [num2, setNum2] = useState(2);
-
+function Child() {
+  console.log('第一个子组件更新了');
   return (
-    <div>
-      <div>num: {num}</div>
-      <div>
-        <button onClick={() => setNum(num + 1)}>加 1</button>
-        <button onClick={() => setNum(num - 1)}>减 1</button>
-      </div>
-      <hr />
-      <div>num2: {num2}</div>
-      <div>
-        <button onClick={() => setNum2(num2 * 2)}>扩大一倍</button>
-        <button onClick={() => setNum2(num2 / 2)}>缩小一倍</button>
-      </div>
-    </div>
-  );
+      <div style={{margin: '20px'}}>第一个子组件</div>
+  )
 }
+const  Child2 = memo(() => {
+  /*
+  发现不管点击多少次，只有第一次渲染的时候会打印，后面都不会再打印，因为memo里面没有接收任何props，所以会阻止他进行更新
+  */
+  console.log('子组件2更新了');
+  return (
+      <div style={{margin: '20px'}}>第child2 组件</div>
+  )
+});
 
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
-
-function Counter() {
-  const [count, setCount] = useState(0);
-  const prevCount = usePrevious(count);
-  return <h1>Now: {count}, before: {prevCount}</h1>;
-}
+const Child3 = memo((props) => {
+  const date = new Date();
+  console.log('i am 第3个 child', props);
+  // 有props 但是没有接收，组件依然会渲染
+  return (
+    // <div>i am child</div>
+    <div>当前时间: {date.getHours()}: {date.getMinutes()}: {date.getSeconds()}</div>
+  )
+});
 
 
-// useState 的实现原理
-/*
-当调用 useState 的时候，会返回形如 (变量, 函数) 的一个元祖。并且 state 的初始值就是外部调用 useState 的时候，传入的参数。
-理清楚了传参和返回值，再来看下 useState 还做了些什么。正如下面代码所示，当点击按钮的时候，执行setNum，状态 num 被更新，
-并且 UI 视图更新。显然，useState 返回的用于更改状态的函数，自动调用了render方法来触发视图更新。 
-*/
 const Index = () => {
   const [num, setNum] = useState(0);
-  const prevNum = usePrevious(num);
+
+  const [clickTimeCount, setIimeClickCount] = useState(0);
   return (
-    <div>
-      {/* <Form />
-      <App />
-      <div>num: {num}</div>
-      <button onClick={() => setNum(num + 1)}>加 1</button> */}
-      prevNum: {prevNum} current: {num} 
+    <div style={{padding: '20px'}}>
+      <div style={{margin: '20px'}}>{num}</div>
       <button onClick={() => setNum(num + 1)}>加 1</button>
-      <Counter />
+      <Child />
+      <Child2 />
+      <button onClick={()=>{
+        setIimeClickCount(clickTimeCount + 1)
+      }}>get current time</button>
+      <Child3 clickTimeCount={clickTimeCount} />
     </div>
   );
 }
