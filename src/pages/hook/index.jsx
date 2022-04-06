@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect, useRef } from 'react';
+import React, { useState, memo, useMemo, useEffect, useRef } from 'react';
 
 function Child() {
   console.log('第一个子组件更新了');
@@ -22,15 +22,65 @@ const Child3 = memo((props) => {
   // 有props 但是没有接收，组件依然会渲染
   return (
     // <div>i am child</div>
-    <div>当前时间: {date.getHours()}: {date.getMinutes()}: {date.getSeconds()}</div>
+    <div style={{marginBottom: '20px'}}>当前时间: {date.getHours()}: {date.getMinutes()}: {date.getSeconds()}</div>
   )
 });
+const Child4 = memo((props) => {
+  const date = new Date();
+  console.log('i am 第4个 child', props);
+  // 有props 但是没有接收，组件依然会渲染
+  return (
+    // <div>i am child</div>
+    <div style={{marginBottom: '20px'}}>当前时间: {date.getHours()}: {date.getMinutes()}: {date.getSeconds()}</div>
+  )
+});
+const Child5 = memo(() => {
+  const date = new Date();
+  // console.log('i am 第5个 child', props);
+  // 有props 但是没有接收，组件依然会渲染 useMemo后不会渲染
+  return (
+    // <div>i am child</div>
+    <div style={{marginBottom: '20px'}}>当前时间: {date.getHours()}: {date.getMinutes()}: {date.getSeconds()}</div>
+  )
+});
+const Child6 = memo(() => {
+  const date = new Date();
+  // console.log('i am 第5个 child', props);
+  // 有props 但是没有接收，组件依然会渲染 useMemo后不会渲染
+  return (
+    <>
+      <div>i am第6个 child</div>
+      <div style={{marginBottom: '20px'}}>当前时间: {date.getHours()}: {date.getMinutes()}: {date.getSeconds()}</div>
+    </>
+    )
+});
+
+// <Child clickTimeCount={timeOption}/> 重点修改这里
 
 
 const Index = () => {
   const [num, setNum] = useState(0);
 
   const [clickTimeCount, setIimeClickCount] = useState(0);
+  const timeOption = {
+    clickTimeCount
+  }
+
+  const timeOption2 = useMemo( 
+    () => {
+      return {
+        clickTimeCount
+      }
+    },
+    [clickTimeCount]
+  )
+  const timeOption3 = useMemo( 
+    () => {
+      return clickTimeCount;
+    },
+    [clickTimeCount]
+  )
+
   return (
     <div style={{padding: '20px'}}>
       <div style={{margin: '20px'}}>{num}</div>
@@ -41,6 +91,11 @@ const Index = () => {
         setIimeClickCount(clickTimeCount + 1)
       }}>get current time</button>
       <Child3 clickTimeCount={clickTimeCount} />
+      child4 副本
+      <Child4 clickTimeCount={timeOption} />
+      child5 副本 2 useMemo的作用，可以正确看出值的更新。缓存一些变量。在不需要变化的时候，去读取缓存。
+      <Child5 clickTimeCount={timeOption2} />
+      <Child6 clickTimeCount={timeOption3} />
     </div>
   );
 }
