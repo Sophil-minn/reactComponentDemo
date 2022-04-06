@@ -1,4 +1,4 @@
-import React, { useState, memo, useMemo, useEffect, useRef } from 'react';
+import React, { useState, memo, useMemo, useCallback, useEffect, useRef } from 'react';
 
 function Child() {
   console.log('第一个子组件更新了');
@@ -64,16 +64,28 @@ const Child7 = memo((props) => {
     </>
   )
 });
+const Child8 = memo((props) => {
+  console.log('i am 第8个  child');
+  return (
+    <>
+    <input type="text" onChange={props.onChange} />
+    </>
+  )
+});
 
 
 const Index = () => {
   const [num, setNum] = useState(0);
   const [clickTimeCount, setIimeClickCount] = useState(0);
   const [text, setText] = useState('');
+  const [text2, setText2] = useState('');
  
   const handleChange = (e) => {
     setText(e.target.value);
   };
+  const handleChange2 = useCallback((e) => {
+    setText2(e.target.value);
+  });
   const timeOption = {
     clickTimeCount
   }
@@ -111,7 +123,11 @@ const Index = () => {
 
       <div>text: {text}</div>
       <Child7  onChange={handleChange}/>
-
+      <div style={{padding: '10px'}}>
+      每次输入内容，setText就会执行，这样就会导致父组件进行更新，handleChange也被认为是一个新的，所以导致子组件进行了刷新，但是想想，子组件并不需要这种更新。这个时候需要用useCallback 
+      </div>
+      <div>text2: {text2}</div>
+      <Child8 onChange={handleChange2}/>
     </div>
   );
 }
