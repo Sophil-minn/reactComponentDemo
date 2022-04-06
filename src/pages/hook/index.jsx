@@ -85,7 +85,7 @@ const Index = () => {
   };
   const handleChange2 = useCallback((e) => {
     setText2(e.target.value);
-  });
+  }, []);
   const timeOption = {
     clickTimeCount
   }
