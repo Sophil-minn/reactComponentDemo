@@ -72,6 +72,10 @@ const Child8 = memo((props) => {
     </>
   )
 });
+// 为什么不是界面上like的实时状态？
+// 当我们更改状态的时候，React会重新渲染组件，每次的渲染都会拿到独立的like值，并重新定义个handleAlertClick函数，
+// 每个handleAlertClick函数体里的like值也是它自己的，所以当like为6时，点击alert，触发了handleAlertClick，
+// 此时的like是6，哪怕后面继续更改like到10，但alert时的like已经定下来了。
 const LikeButton = () => {
   const [like, setLike] = useState(0)
   function handleAlertClick() {
@@ -87,6 +91,30 @@ const LikeButton = () => {
       </>
   )
 }
+// 采用全局变量
+// 由于like变量是定义在组件外，所以不同渲染间是可以共用该变量,所以3秒后获取的like值就是最新的like值
+// 该示例同时也说明，非state变量不会引起重新render
+let like = 0;
+const LikeButton2 = () => {
+  function handleAlertClick() {
+    setTimeout(() => {
+      alert(`you clicked on ${like}`);
+    }, 3000);
+  }
+  return (
+    <>
+      LikeButton2 采用全局变量
+      <button
+        onClick={() => {
+          like = ++like;
+        }}
+      >
+        {like}赞
+      </button>
+      <button onClick={handleAlertClick}>Alert</button>
+    </>
+  );
+};
 
 const Index = () => {
   const [num, setNum] = useState(0);
@@ -143,6 +171,7 @@ const Index = () => {
       <div>text2: {text2}</div>
       <Child8 onChange={handleChange2}/>
       <LikeButton />
+      <LikeButton2 />
     </div>
   );
 }
